@@ -4,8 +4,9 @@ const polka = require('polka');
 const compression = require('compression');
 const Gun = require('gun');
 
-var { PORT , NODE_ENV } = process.env;
+var { PORT=8080, NODE_ENV } = process.env;
 const dev = NODE_ENV === 'development';
+console.log("dev:", dev);
 if(PORT == null){PORT = process.env.PORT || 8080;}
 const app = polka();
 app.use(compression({ threshold: 0 }));
@@ -17,17 +18,37 @@ const options = { // See options section of api docs, for the possibilities
   publicUrl:'/',
 };
 //https://github.com/parcel-bundler/parcel/issues/3098
+//https://github.com/Kogia-sima/express-parcel-example/blob/master/server.js
 //
 const bundler = new Bundler(file, options);
-bundler.addPackager('foo', require.resolve('./mypackage'))
 
-//https://github.com/Kogia-sima/express-parcel-example/blob/master/server.js
+//bundler.addAssetType('ext', require.resolve('./MyAsset'));
+//bundler.addAssetType('js', require.resolve('./MyAsset'));//works need fix file
+//                  file.?
+//bundler.addPackager('js', require.resolve('./MyPackager'));//works
+
+bundler.on('bundled', (bundle) => {
+  // bundler contains all assets and bundles, see documentation for details
+  console.log("bundled");
+});
+bundler.on('buildEnd', () => {
+  // Do something...
+  console.log("buildEnd");
+});
+bundler.on('buildStart', entryPoints => {
+  // Do something...
+  console.log("buildStart");
+  console.log(entryPoints);
+});
+bundler.on('buildError', error => {
+  // Do something...
+  console.log("buildError");
+});
+
 const parcel_middleware = bundler.middleware();
-
 //app.use(bundler.middleware());
 app.use(parcel_middleware);
 app.use(Gun.serve);
-//app.use(bundler.serve);
 
 app.use('/', function(req, res, next) {
   console.log("req.originalUrl:");

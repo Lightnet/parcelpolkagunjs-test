@@ -1,4 +1,5 @@
-const { Packager } = require('parcel-bundler')
+
+const { Packager } = require('parcel-bundler');
 
 class MyPackager extends Packager {
   async start() {
@@ -9,8 +10,14 @@ class MyPackager extends Packager {
 
   async addAsset(asset) {
     // required. write the asset to the output file.
-    console.log("addAsset");
-    await this.dest.write(asset.generated.foo)
+    console.log("====addAsset====");
+    //console.dir(asset);
+    //console.log(asset.id);
+    //console.log(asset.type);
+    //console.log(asset.name);
+    //console.log(asset.basename);
+    //console.log(asset.relativeName);
+    //await this.dest.write(asset.generated.foo)
   }
 
   async end() {
@@ -20,4 +27,4 @@ class MyPackager extends Packager {
   }
 }
 
-module.exports = MyPackager
+module.exports = MyPackager;
