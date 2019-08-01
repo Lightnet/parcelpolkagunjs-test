@@ -1,0 +1,24 @@
+{
+  "name": "parcelpolkagunjs-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "dev": "node app.js",
+    "devparcel": "parcel src/client/index.html",
+    "buildparcel": "parcel build src/client/index.html",
+    "server": "node app.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "parcel-bundler": "^1.12.3"
+  },
+  "dependencies": {
+    "compression": "^1.7.4",
+    "esm": "^3.2.25",
+    "gun": "^0.2019.726",
+    "polka": "^0.5.2",
+    "sirv": "^0.4.2"
+  }
+}
